@@ -1,0 +1,51 @@
+Hooks is nothing but function
+const people = ["Ravi", "Mithra", "Raja", "Deepak", "Raju"]; //Array of strings
+
+const user = [
+  //Array of objects
+  { name: "Rasheed", age: 3 },
+  { name: "Mike", age: 4 },
+  { name: "Hella", age: 5 },
+];
+const profile = [
+  {
+    pic: "https://tse1.mm.bing.net/th?id=OIP.TRnoXLjxnhqpxPIb7TIHCgHaEo&pid=Api&P=0&h=180",
+    name: "Rasheed",
+  },
+  {
+    pic: "https://tse3.mm.bing.net/th?id=OIP.DXTzA53g5h_MlYhHIt7IEwHaFj&pid=Api&P=0&h=180",
+    name: "Mike",
+  },
+  {
+    name: "Hella",
+    pic: "https://tse1.mm.bing.net/th?id=OIP.FaKu0c_POMvHSqkQcVqxbwHaDg&pid=Api&P=0&h=180",
+  },
+];
+
+
+
+{/*  */}
+
+  {profile.map((profile) => (
+        <Msg name={profile.name} picture={profile.pic} />
+      ))}
+
+      {/* {user.map((usr) => (
+        <Msg name={usr.name} age={usr.age} />
+      ))} */}
+      {/* {people.map((usr) => (
+        <Welcome name={usr} />
+      ))} */}
+
+
+ 
+
+
+
+// function Welcome({ name }) {
+//   return (
+//     <div>
+//       <h1>Hey {name}</h1>
+//     </div>
+//   );
+// }

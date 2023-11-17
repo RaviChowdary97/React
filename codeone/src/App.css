@@ -1,0 +1,36 @@
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.App > div:nth-child(0) > .profile-pic {
+  border-radius: 0%;
+}
+/* .add-color {
+  display: flex;
+} */
+.product-spec {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.product-container {
+  width: 300px;
+}
+.product-poster {
+  width: 300px;
+}
+.product-pricing {
+  margin: 0;
+}
+.App {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.add-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

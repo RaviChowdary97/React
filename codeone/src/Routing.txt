@@ -1,0 +1,8 @@
+when no routing
+            ->hit refresh you are lost
+            ->cannot bookmark
+when we have routing
+            ->organized
+            ->Easy to access
+            ->share url
+            ->secure route

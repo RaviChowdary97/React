@@ -1,0 +1,2 @@
+virtual of dom is nothing but real dom
+to work with virtual dom we are using hooks
