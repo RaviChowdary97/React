@@ -2,8 +2,13 @@ import logo from "./logo.svg";
 import "./App.css";
 import { AddColor } from "./AddColor";
 import { useState } from "react";
-import { Routes, Route, Link, useParams } from "react-router-dom";
+import { Routes, Route, Link, useParams, Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Button, TextField, Badge, IconButton } from "@mui/material";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import InfoIcon from "@mui/icons-material/Info";
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 
 const INITIAL_PRODUCT_LIST = [
   {
@@ -22,6 +27,7 @@ const INITIAL_PRODUCT_LIST = [
     rating: 5.0,
     summary:
       " iPhone 15 Pro has a strong and light aerospace-grade titanium design with a textured matte-glass back. It also features a Ceramic Shield front that’s tougher than any smartphone glass. And it’s splash, water, and dust resistant.",
+    trailer: "https://www.youtube.com/embed/xqyUdNxWazA",
   },
 
   {
@@ -98,6 +104,8 @@ const INITIAL_PRODUCT_LIST = [
 ];
 
 function App() {
+  //lifting the state up or lifted from child to parent
+  const [productList, setProductList] = useState(INITIAL_PRODUCT_LIST);
   return (
     <div className="App">
       <nav>
@@ -118,24 +126,91 @@ function App() {
           <li>
             <Link to="/somewhere">Somewhere</Link>
           </li>
+          {/* <li>
+            <Link to="/example">Example</Link>
+          </li> */}
         </ul>
       </nav>
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/productList" element={<ProductList />} />
-        <Route path="/productList/:productid" element={<ProductDetails />} />
+        <Route
+          path="/productList"
+          element={
+            <ProductList
+              productList={productList}
+              setProductList={setProductList}
+            />
+          }
+        />
+        <Route
+          path="/productList/:productid"
+          element={
+            <ProductDetails
+              productList={productList}
+              setProductList={setProductList}
+            />
+          }
+        />
         <Route path="/color-game" element={<AddColor />} />
         <Route path="/profile" element={<UserList />} />
+
+        <Route path="/item" element={<Navigate replace to="/productList" />} />
+
+        <Route path="/404" element={<NotFound />} />
+        <Route path="*" element={<Navigate replace to="/404" />} />
+        {/* <Route path="/example" element={<Example />} /> */}
       </Routes>
     </div>
   );
 }
-function ProductDetails() {
-  const { productid } = useParams();
-  console.log(productid);
 
-  return <h1>Product Detail Page - {productid}</h1>;
+function NotFound() {
+  return (
+    <div>
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT58q0MWIfeUd9Zo0lKMi7ErLLvCD1mQStirw&usqp=CAU"
+        alt="Page Not Found"
+      />
+    </div>
+  );
+}
+
+function ProductDetails({ productList }) {
+  const { productid } = useParams(); //getting parameters from url
+  console.log(productid);
+  const product = productList[productid];
+
+  console.log(product.name);
+  const navigate = useNavigate();
+
+  return (
+    <div className="product-detail-container">
+      <iframe
+        width="100%"
+        height="450"
+        src={product.trailer}
+        title="Introducing iPhone 15 Pro | Apple"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+      <div className="product-spec">
+        <h2 className="product-name">{product.name}</h2>
+        <p className="product-rating">⭐{product.rating}</p>
+      </div>
+      <h5 className="product-pricing">Price: ₹ {product.price}</h5>
+      <Button
+        variant="contained"
+        onClick={() => navigate(-1)}
+        startIcon={<ArrowCircleLeftIcon />}
+      >
+        BACK
+      </Button>
+
+      {/* <h1>Product Detail Page - {product.name}</h1> */}
+    </div>
+  );
 }
 
 function UserList() {
@@ -178,9 +253,8 @@ function Home() {
   return <div>Welcome to Product App😊😊😊</div>;
 }
 
-function ProductList() {
+function ProductList({ productList, setProductList }) {
   //const productList = INITIAL_PRODUCT_LIST;
-  const [productList, setProductList] = useState(INITIAL_PRODUCT_LIST);
 
   const [name, setName] = useState("");
   const [poster, setPoster] = useState("");
@@ -190,43 +264,45 @@ function ProductList() {
   return (
     <div>
       <div className="add-product-form">
-        <input
-          type="text"
+        <TextField
+          label="Name"
+          variant="standard"
           value={name}
           onChange={(event) => setName(event.target.value)}
-          placeholder="Enter the name"
         />
 
-        <input
-          type="text"
+        <TextField
+          label="Poster"
+          variant="standard"
           value={poster}
           onChange={(event) => setPoster(event.target.value)}
-          placeholder="Enter the poster"
         />
 
-        <input
-          type="text"
+        <TextField
+          label="Rating"
+          variant="standard"
           value={rating}
           onChange={(event) => setRating(event.target.value)}
-          placeholder="Enter the rating"
         />
 
-        <input
-          type="text"
+        <TextField
+          label="Price"
+          variant="standard"
           value={price}
           onChange={(event) => setPrice(event.target.value)}
-          placeholder="Enter the price"
         />
 
-        <input
-          type="text"
+        <TextField
+          label="Summary"
+          variant="standard"
           value={summary}
           onChange={(event) => setSummary(event.target.value)}
-          placeholder="Enter the summary"
         />
 
         {/* copy the productList and add newProduct to it */}
-        <button
+
+        <Button
+          variant="contained"
           onClick={() => {
             const newProduct = {
               name: name,
@@ -240,7 +316,7 @@ function ProductList() {
           }}
         >
           Add Product
-        </button>
+        </Button>
       </div>
       <div className="App">
         {productList.map((pd, index) => (
@@ -275,8 +351,26 @@ function Product({ product, id }) {
         </p>
       </div>
       <h5 className="product-pricing">Price: ₹ {product.price}</h5>
-      <button onClick={() => setShow(!show)}>Toggle Descripion</button>
-      <button onClick={() => navigate("/productList/" + id)}>Info</button>
+      {/* <button onClick={() => setShow(!show)}>Toggle Descripion</button> */}
+
+      <IconButton
+        aria-label="likeButton"
+        color="primary"
+        onClick={() => setShow(!show)}
+      >
+        {show ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+      </IconButton>
+
+      <IconButton
+        aria-label="likeButton"
+        color="primary"
+        onClick={() => navigate("/productList/" + id)}
+      >
+        <InfoIcon />
+      </IconButton>
+
+      {/* <button onClick={() => navigate("/productList/" + id)}>Info</button> */}
+
       <p style={summaryStyle} className="product-summary">
         {product.summary}
       </p>
@@ -292,7 +386,33 @@ function Counter() {
 
   return (
     <div>
-      <button
+      <IconButton
+        aria-label="likeButton"
+        onClick={() => {
+          setLike(like + 1);
+          console.log(like);
+        }}
+        color="primary"
+      >
+        <Badge badgeContent={like} color="primary">
+          👍
+        </Badge>
+      </IconButton>
+
+      <IconButton
+        aria-label="delete"
+        onClick={() => {
+          setdisLike(dislike + 1);
+          console.log(dislike);
+        }}
+        color="primary"
+      >
+        <Badge badgeContent={dislike} color="error">
+          👎
+        </Badge>
+      </IconButton>
+
+      {/* <button
         onClick={() => {
           setLike(like + 1);
           console.log(like);
@@ -307,9 +427,44 @@ function Counter() {
         }}
       >
         👎 {dislike}
-      </button>
+      </button> */}
     </div>
   );
 }
+
+// function Example() {
+//   // const username = ["Deepak", "Richard", "Ravi"];
+//   const [username, setUsername] = useState(["Deepak", "Richard", "Ravi"]);
+
+//   const [name, setName] = useState("");
+//   const movieName = "Iron-Man";
+//   const rating = 5;
+
+//   const handleClick = (event) => {
+//     //  setUsername([...username, name]);
+//     setName(event.target.value);
+//   };
+//   return (
+//     <div>
+//       <h1> Hi {name}</h1>
+//       <input type="text" />
+//       <button onClick={handleClick}>Change Name</button>
+
+//       {/* {username.map((names) => (
+//         <Example1 name={names} />
+//       ))} */}
+//       {/* <h1>Movie Name : {movieName}</h1>
+//       <p>Rating fornthe Movie :{rating}</p> */}
+//     </div>
+//   );
+// }
+
+// function Example1({ name }) {
+//   return (
+//     <div>
+//       <h1> Hi {name}</h1>
+//     </div>
+//   );
+// }
 
 export default App;

@@ -38,14 +38,47 @@ const profile = [
       ))} */}
 
 
- 
-
-
-
 // function Welcome({ name }) {
 //   return (
 //     <div>
 //       <h1>Hey {name}</h1>
 //     </div>
 //   );
-// }
+
+
+
+
+// hooks => useState
+//destructure useState
+const [state, setState] = useState(initialValue)
+state =>previous value
+setState => currentValue
+
+
+state => 
+state of art of technology => top tech
+state of mind => wats running in your mind
+
+state => current scenario
+
+
+
+ ProductList (data) -> Product  (data) -> Counter    (data)
+
+                           -> Contact (data)
+
+
+  React flows in one direction  | 
+  
+  Pass data from parent to child ✅    
+  
+  Pass data from child to parent ❌      
+
+
+  
+             App (🏔️) (productList, setProductList)
+
+
+
+
+ ProductList (🌊)     ProductDetails (🌊)        

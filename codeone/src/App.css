@@ -34,3 +34,6 @@
   flex-direction: column;
   gap: 10px;
 }
+.product-detail-container {
+  width: 100%;
+}
